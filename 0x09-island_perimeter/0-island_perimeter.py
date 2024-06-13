@@ -4,11 +4,11 @@ Defines the function island_perimeter that calculates the perimeter
 of an island in a body of water.
 """
 
-# Define sets to store cells with different numbers of exposed boundaries
 bound_4 = set()
 bound_3 = set()
 bound_2 = set()
 bound_1 = set()
+
 
 def boundary(grid, i, j):
     """
@@ -21,36 +21,31 @@ def boundary(grid, i, j):
         j (int): Column number of the cell.
     """
     boundaries = 0
-
-    # Check the top boundary
     try:
-        if i == 0 or grid[i-1][j] == 0:
+        if i == 0:
             boundaries += 1
-    except IndexError:
+        elif grid[i-1][j] == 0:
+            boundaries += 1
+    except:
         boundaries += 1
-    
-    # Check the bottom boundary
     try:
         if grid[i+1][j] == 0:
             boundaries += 1
-    except IndexError:
+    except:
         boundaries += 1
-    
-    # Check the right boundary
     try:
         if grid[i][j+1] == 0:
             boundaries += 1
-    except IndexError:
+    except:
         boundaries += 1
-    
-    # Check the left boundary
     try:
-        if j == 0 or grid[i][j-1] == 0:
+        if j == 0:
             boundaries += 1
-    except IndexError:
+        elif grid[i][j-1] == 0:
+            boundaries += 1
+    except:
         boundaries += 1
 
-    # Add the cell to the appropriate set based on the number of boundaries
     if boundaries == 1:
         bound_1.add((i, j))
     elif boundaries == 2:
@@ -59,6 +54,7 @@ def boundary(grid, i, j):
         bound_3.add((i, j))
     elif boundaries == 4:
         bound_4.add((i, j))
+
 
 def island_perimeter(grid):
     """
@@ -73,18 +69,15 @@ def island_perimeter(grid):
     Returns:
         int: Perimeter of the island.
     """
-    if not grid:
+    if grid == []:
         return 0
-    
     l = len(grid)
     w = len(grid[0])
-    
     for i in range(l):
         for j in range(w):
             if grid[i][j] == 1:
                 boundary(grid, i, j)
-                if bound_4:
+                if len(bound_4) != 0:
                     return 4
-    
-    perimeter = (len(bound_3) * 3) + (len(bound_2) * 2) + len(bound_1)
+    perimeter = (len(bound_3) * 3) + (len(bound_2) * 2) + (len(bound_1))
     return perimeter
